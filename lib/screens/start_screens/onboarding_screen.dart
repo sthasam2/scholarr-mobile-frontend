@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -67,7 +68,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           ),
           onPressed: () {
             Provider.of<AppStateManager>(context, listen: false)
-                .completeOnboarding();
+                .completeOnboarding(true);
           },
         ),
       ],
@@ -113,7 +114,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           const SizedBox(height: 16),
           Text(
             text,
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.bodyText2,
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 16),

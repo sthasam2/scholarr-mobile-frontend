@@ -1,4 +1,7 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
 Color selectionColor = const Color.fromARGB(255, 23, 197, 224);
@@ -10,8 +13,13 @@ class AppTheme {
       fontWeight: FontWeight.w500,
       color: Colors.black,
     ),
+    bodyText2: GoogleFonts.montserrat(
+      fontSize: 16.0,
+      fontWeight: FontWeight.w400,
+      color: Colors.black,
+    ),
     headline1: GoogleFonts.montserrat(
-      fontSize: 60.0,
+      fontSize: 40.0,
       fontWeight: FontWeight.bold,
       color: Colors.black,
     ),
@@ -26,7 +34,12 @@ class AppTheme {
       color: Colors.black,
     ),
     headline6: GoogleFonts.montserrat(
-      fontSize: 20.0,
+      fontSize: 12.0,
+      fontWeight: FontWeight.w600,
+      color: Colors.black,
+    ),
+    labelMedium: GoogleFonts.montserrat(
+      fontSize: 14.0,
       fontWeight: FontWeight.w600,
       color: Colors.black,
     ),
@@ -38,13 +51,18 @@ class AppTheme {
       fontWeight: FontWeight.w500,
       color: Colors.white,
     ),
+    bodyText2: GoogleFonts.montserrat(
+      fontSize: 16.0,
+      fontWeight: FontWeight.w400,
+      color: Colors.white,
+    ),
     headline1: GoogleFonts.montserrat(
-      fontSize: 60.0,
+      fontSize: 40.0,
       fontWeight: FontWeight.bold,
       color: Colors.white,
     ),
     headline2: GoogleFonts.montserrat(
-      fontSize: 21.0,
+      fontSize: 26.0,
       fontWeight: FontWeight.w700,
       color: Colors.white,
     ),
@@ -54,7 +72,12 @@ class AppTheme {
       color: Colors.white,
     ),
     headline6: GoogleFonts.montserrat(
-      fontSize: 20.0,
+      fontSize: 12.0,
+      fontWeight: FontWeight.w600,
+      color: Colors.white,
+    ),
+    labelMedium: GoogleFonts.montserrat(
+      fontSize: 14.0,
       fontWeight: FontWeight.w600,
       color: Colors.white,
     ),
@@ -79,6 +102,8 @@ class AppTheme {
         selectedItemColor: Colors.green,
       ),
       textTheme: lightTextTheme,
+      primaryColor: Color.fromARGB(23, 0, 0, 0),
+      useMaterial3: true,
     );
   }
 
@@ -98,6 +123,8 @@ class AppTheme {
         selectedItemColor: Colors.green,
       ),
       textTheme: darkTextTheme,
+      primaryColor: Color.fromARGB(24, 255, 255, 255),
+      useMaterial3: true,
     );
   }
 }

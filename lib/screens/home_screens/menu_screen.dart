@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
+// ignore_for_file: prefer_const_constructors
 
-import '../../../models/models.dart';
+import 'package:flutter/material.dart';
+
 import '../../../components/components.dart';
+import '../../../models/models.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({Key? key}) : super(key: key);
@@ -17,6 +18,10 @@ class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
+      floatingActionButton: buildMenuFloatingActionButton(
+          context, Icon(Icons.close_rounded), false),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
       body: ListView(
         scrollDirection: Axis.vertical,
         children: [
@@ -38,22 +43,24 @@ class MenuScreen extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    SizedBox(
-                      width: 70,
-                      height: 70,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: MaterialButton(
-                          color: Colors.grey[800]?.withAlpha(100),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15)),
-                          child: const Icon(Icons.close_rounded),
-                          onPressed: () async {
-                            Navigator.pop(context, true);
-                          },
-                        ),
-                      ),
-                    ),
+                    // SizedBox(
+                    //   width: 70,
+                    //   height: 70,
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.all(8.0),
+                    //     child: MaterialButton(
+                    //       color: Colors.grey[800]?.withAlpha(100),
+                    //       shape: RoundedRectangleBorder(
+                    //           borderRadius: BorderRadius.circular(15)),
+                    //       child: const Icon(Icons.close_rounded),
+                    //       onPressed: () async {
+                    //         Provider.of<AppStateManager>(context, listen: false)
+                    //             .showMenu(false);
+                    //         Navigator.pop(context, true);
+                    //       },
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
                 const SizedBox(
@@ -62,13 +69,13 @@ class MenuScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    buildMenuCard(
+                    menuCard(
                         context,
                         const AssetImage(
                             'assets/menu_assets/calendar-outline.png'),
                         "PLANNER"),
                     const SizedBox(width: 20),
-                    buildMenuCard(
+                    menuCard(
                         context,
                         const AssetImage('assets/menu_assets/moon-outline.png'),
                         "RESOURCES"),
@@ -80,13 +87,13 @@ class MenuScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    buildMenuCard(
+                    menuCard(
                         context,
                         const AssetImage(
                             'assets/menu_assets/calendar-outline.png'),
                         "ROUTINE"),
                     const SizedBox(width: 20),
-                    buildMenuCard(
+                    menuCard(
                         context,
                         const AssetImage(
                             'assets/menu_assets/settings-outline.png'),

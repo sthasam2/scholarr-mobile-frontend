@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 
-import '../../models/models.dart';
 import '../../components/components.dart';
+import '../../models/models.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   static MaterialPage page() {
@@ -97,7 +98,7 @@ class ForgotPasswordScreen extends StatelessWidget {
         MaterialButton(
           padding: const EdgeInsets.all(10),
           child: Text(
-            'Already received Email? Reset Password',
+            'Already received Email?',
             style: Theme.of(context).textTheme.bodyText2,
           ),
           onPressed: () {
@@ -119,10 +120,10 @@ class ForgotPasswordScreen extends StatelessWidget {
           action,
           style: Theme.of(context).textTheme.bodyText1,
         ),
-        onPressed: () async {
-          Provider.of<AppStateManager>(context, listen: false)
-              .login('mockUsername', 'mockPassword');
-        },
+        onPressed: null,
+        // () async {
+        //   Provider.of<AppStateManager>(context, listen: false).login(true);
+        // },
       ),
     );
   }

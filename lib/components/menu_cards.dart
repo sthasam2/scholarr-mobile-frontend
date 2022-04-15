@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 
-Widget buildMenuCard(
+Widget menuCard(
     BuildContext context, ImageProvider imageProvider, String label) {
   return Card(
+    margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
     elevation: 2.0,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(20),
     ),
-    child: InkWell(
-      splashColor: Colors.blue.withAlpha(30),
-      onTap: () {
-        debugPrint('Card tapped.');
-      },
-      child: SizedBox(
-        width: 145,
-        height: 145,
+    child: SizedBox(
+      width: 145,
+      height: 145,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(20),
+        splashColor: Colors.blue.withAlpha(30),
+        onTap: () {
+          debugPrint('Card tapped.');
+        },
         child: Padding(
           padding: const EdgeInsets.fromLTRB(25, 35, 25, 25),
           child: Column(

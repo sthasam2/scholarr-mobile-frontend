@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
 Widget alertInfoBox(String message) {
@@ -8,7 +9,7 @@ Widget alertInfoBox(String message) {
       borderRadius: BorderRadius.circular(15),
     ),
     child: Padding(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -26,5 +27,89 @@ Widget alertInfoBox(String message) {
         ],
       ),
     ),
+  );
+}
+
+Widget successInfoBox(BuildContext context, String title, String message) {
+  Color _foregroundColor = Colors.green.withOpacity(0.8);
+  Color _backgroundColor = Colors.green.withOpacity(0.2);
+
+  return Card(
+    color: _backgroundColor,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15),
+    ),
+    child: Container(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Icon(Icons.done, color: _foregroundColor),
+            const SizedBox(width: 10.0),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: GoogleFonts.montserrat(
+                        color: _foregroundColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  Text(
+                    message,
+                    style: GoogleFonts.montserrat(
+                        color: _foregroundColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        )),
+  );
+}
+
+Widget errorInfoBox(BuildContext context, String title, String message) {
+  Color _foregroundColor = Colors.red.withOpacity(0.8);
+  Color _backgroundColor = Colors.red.withOpacity(0.2);
+
+  return Card(
+    color: _backgroundColor,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15),
+    ),
+    child: Container(
+        padding: const EdgeInsets.all(10),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Icon(Icons.warning, color: _foregroundColor),
+            const SizedBox(width: 10.0),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: GoogleFonts.montserrat(
+                        color: _foregroundColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600),
+                  ),
+                  Text(
+                    message,
+                    style: GoogleFonts.montserrat(
+                        color: _foregroundColor,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        )),
   );
 }

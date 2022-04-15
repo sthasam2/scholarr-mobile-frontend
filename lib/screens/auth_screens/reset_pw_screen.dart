@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../../models/models.dart';
 import '../../components/components.dart';
+import '../../models/models.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
   static MaterialPage page() {
@@ -108,10 +107,10 @@ class ResetPasswordScreen extends StatelessWidget {
           action,
           style: Theme.of(context).textTheme.bodyText1,
         ),
-        onPressed: () async {
-          Provider.of<AppStateManager>(context, listen: false)
-              .login('mockUsername', 'mockPassword');
-        },
+        onPressed: null,
+        //() async {
+        //   Provider.of<AppStateManager>(context, listen: false).login(false);
+        // },
       ),
     );
   }

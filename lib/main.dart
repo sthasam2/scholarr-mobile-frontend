@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
+
 import 'package:scholarr_mobile_frontend/models/models.dart';
 import 'package:scholarr_mobile_frontend/navigator/app_router.dart';
 import 'package:scholarr_mobile_frontend/theme.dart';
@@ -32,6 +34,7 @@ class _AppState extends State<App> {
         ChangeNotifierProvider(create: (context) => _appStateManager)
       ],
       child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           theme: AppTheme.dark(),
           title: "Scholarr Mobile",
           home: Router(

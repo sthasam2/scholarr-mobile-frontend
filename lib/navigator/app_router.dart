@@ -38,6 +38,10 @@ class AppRouter extends RouterDelegate
           ForgotPasswordScreen.page(),
         if (!appStateManager.isLoggedIn && appStateManager.getSelectedAuth == 3)
           ResetPasswordScreen.page(),
+        if (appStateManager.isLoggedIn)
+          HomeScreen.page(appStateManager.getSelectedTab),
+        if (appStateManager.isLoggedIn && appStateManager.isMenuTapped)
+          MenuScreen.page(),
       ],
     );
   }
@@ -45,6 +49,10 @@ class AppRouter extends RouterDelegate
   bool _handlePopPage(Route<dynamic> route, result) {
     if (!route.didPop(result)) {
       return false;
+    }
+
+    if (appStateManager.isMenuTapped == true) {
+      appStateManager.showMenu(false);
     }
 
     if (appStateManager.getSelectedAuth == 1 ||

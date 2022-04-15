@@ -1,10 +1,26 @@
+// ignore_for_file: unused_field
+
 import 'package:flutter/material.dart';
+
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-import '../../models/models.dart';
 import '../../components/components.dart';
+import '../../data/data.dart';
+import '../../models/models.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
+  final String? username;
+  final String? email;
+  final String? password;
+
+  const SignUpScreen({
+    Key? key,
+    this.username,
+    this.email,
+    this.password,
+  }) : super(key: key);
+
   static MaterialPage page() {
     return MaterialPage(
         name: AppPages.signUpPath,
@@ -12,18 +28,32 @@ class SignUpScreen extends StatelessWidget {
         child: const SignUpScreen());
   }
 
-  const SignUpScreen({
-    Key? key,
-    this.username,
-    this.email,
-  }) : super(key: key);
+  @override
+  State<SignUpScreen> createState() => SignUpScreenState();
+}
 
-  final String? username;
-  final String? email;
+class SignUpScreenState extends State<SignUpScreen> {
+  final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
-  final Color rwColor = const Color.fromARGB(255, 23, 197, 224);
-  final TextStyle focusedStyle = const TextStyle(color: Colors.blue);
-  final TextStyle unfocusedStyle = const TextStyle(color: Colors.grey);
+  final AuthClient _authClient = AuthClient();
+  final _client = http.Client();
+
+  bool _isSignUpButtonTapped = false;
+
+  var _isSignUpSuccess = false;
+  var _isSignUpFailure = false;
+  var _response = null;
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,56 +76,65 @@ class SignUpScreen extends StatelessWidget {
       ),
       body: ListView(
         scrollDirection: Axis.vertical,
+        padding: const EdgeInsets.all(40),
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(40, 60, 40, 10),
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 120,
-                          child: Text(
-                            "SIGN UP",
-                            style: Theme.of(context).textTheme.displayLarge,
-                          ),
-                        ),
-                      ]),
-                  const SizedBox(height: 20),
-                  buildTextField(
-                    username ?? 'Username',
-                    const Icon(Icons.alternate_email_rounded),
-                    context,
-                    false,
+          Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 100,
+                  child: Text(
+                    "SIGN UP",
+                    style: Theme.of(context).textTheme.displayLarge,
                   ),
-                  const SizedBox(height: 20),
-                  buildTextField(
-                    email ?? 'Email',
-                    const Icon(Icons.email_rounded),
-                    context,
-                    false,
-                  ),
-                  const SizedBox(height: 20),
-                  buildTextField('Password', const Icon(Icons.password_rounded),
-                      context, true),
-                  const SizedBox(height: 40),
-                  buildSignUpButton(context, "SIGN UP"),
-                  buildLoginButton(context),
-                ],
-              ),
-            ),
+                ),
+              ]),
+          _response != null && _isSignUpSuccess
+              ? successInfoBox(
+                  context,
+                  _response.success["message"],
+                  _response.success["verbose"],
+                )
+              : Container(),
+          _response != null && _isSignUpFailure
+              ? errorInfoBox(
+                  context,
+                  _response.error["message"],
+                  _response.error["verbose"],
+                )
+              : Container(),
+          const SizedBox(height: 20),
+          textField(
+            context,
+            const Icon(Icons.alternate_email_rounded),
+            'Username',
+            false,
+            _usernameController,
           ),
+          const SizedBox(height: 20),
+          textField(
+            context,
+            const Icon(Icons.email_rounded),
+            'Email',
+            false,
+            _emailController,
+          ),
+          const SizedBox(height: 20),
+          textField(
+            context,
+            const Icon(Icons.lock_rounded),
+            'Password',
+            true,
+            _passwordController,
+          ),
+          const SizedBox(height: 40),
+          buildSignUpButton(context, "SIGN UP"),
+          buildLoginButton(context),
         ],
       ),
     );
   }
-
-  // TODO login page call
 
   Widget buildLoginButton(context) {
     return Row(
@@ -116,19 +155,74 @@ class SignUpScreen extends StatelessWidget {
   }
 
   Widget buildSignUpButton(BuildContext context, String action) {
-    return SizedBox(
-      height: 55,
-      child: MaterialButton(
-        color: Colors.red[700],
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        child: Text(
-          action,
-          style: Theme.of(context).textTheme.bodyText1,
+    if (_isSignUpButtonTapped) {
+      return SizedBox(
+        height: 55,
+        child: MaterialButton(
+          color: Colors.red.withOpacity(0.3),
+          onPressed: null,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          child: const Center(
+            child: CircularProgressIndicator(),
+          ),
         ),
-        onPressed: () async {
-          Provider.of<AppStateManager>(context, listen: false)
-              .signUp('mockUsername', 'mockEmail', 'mockPassword');
-        },
+      );
+    } else {
+      return SizedBox(
+        height: 55,
+        child: MaterialButton(
+          color: Colors.red[700],
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          child: Text(
+            action,
+            style: Theme.of(context).textTheme.bodyText1,
+          ),
+          onPressed: () async {
+            // Provider.of<AppStateManager>(context, listen: false).signUp(
+            //     _usernameController.text,
+            //     _emailController.text,
+            //     _passwordController.text);
+            _isSignUpButtonTapped = true;
+
+            setState(() {
+              _isSignUpButtonTapped = true;
+            });
+
+            final response = await _authClient.registerUser(
+              _usernameController.text,
+              _emailController.text,
+              _passwordController.text,
+            );
+
+            if (response.status! < 400) {
+              setState(() {
+                _isSignUpButtonTapped = false;
+                _isSignUpSuccess = true;
+                _isSignUpFailure = false;
+                _response = response;
+              });
+            } else if (response.status! >= 400) {
+              setState(() {
+                _isSignUpButtonTapped = false;
+                _isSignUpSuccess = false;
+                _isSignUpFailure = true;
+                _response = response;
+              });
+            }
+          },
+        ),
+      );
+    }
+  }
+
+  Widget buildLabel(label) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+      child: Text(
+        "label",
+        style: Theme.of(context).textTheme.bodyText1,
       ),
     );
   }

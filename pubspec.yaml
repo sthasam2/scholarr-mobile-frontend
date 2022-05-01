@@ -42,6 +42,7 @@ flutter:
     - assets/
     - assets/onboarding_assets/
     - assets/menu_assets/
+    - assets/classgroup_assets/
 
 import_sorter:
   comments: false 

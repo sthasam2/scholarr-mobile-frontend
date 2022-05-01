@@ -5,13 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:scholarr_mobile_frontend/cache/cache.dart';
+import 'package:scholarr_mobile_frontend/models/app_pages.dart';
 
 class AppTab {
   static const int menu = -1;
   static const int home = 0;
   static const int planner = 1;
   static const int resources = 2;
-  static const int settings = 3;
+  static const int classgroups = 3;
+  static const int classrooms = 4;
+  static const int schedule = 5;
+  static const int settings = 6;
 }
 
 class AuthPages {
@@ -34,6 +38,10 @@ class AppStateManager extends ChangeNotifier {
   bool _isSigningUp = false;
   bool _loggedIn = false;
 
+  String? _username;
+  String? _email;
+  int? _id;
+
   int _selectedTab = AppTab.home;
   int _selectedAuth = AuthPages.login;
 
@@ -44,15 +52,15 @@ class AppStateManager extends ChangeNotifier {
   ///////////////////////////////
   bool get isInitialized => _initialized;
   bool get isOnboardingComplete => _onboardingComplete;
-
   bool get isLoggedIn => _loggedIn;
   bool get isSigningUp => _isSigningUp;
   bool get isForgotPassword => _isForgotPassword;
-
   int get getSelectedTab => _selectedTab;
   int get getSelectedAuth => _selectedAuth;
-
   bool get isMenuTapped => _isMenuTapped;
+  String? get getUsername => _username;
+  String? get getEmail => _email;
+  int? get getId => _id;
 
   void initializeApp() async {
     Timer(
@@ -63,9 +71,17 @@ class AppStateManager extends ChangeNotifier {
       },
     );
 
+    initializeSharedPreferences();
+  }
+
+  void initializeSharedPreferences() async {
     final prefs = await SharedPreferences.getInstance();
     final bool? loggedIn = prefs.getBool(prefLoggedIn);
     final bool? onboardingComplete = prefs.getBool(prefOnboardingComplete);
+
+    _username = prefs.getString(prefLoginUsername);
+    _email = prefs.getString(prefLoginEmail);
+    _id = prefs.getInt(prefLoginId);
 
     if (onboardingComplete != null) {
       completeOnboarding(onboardingComplete);
@@ -87,6 +103,14 @@ class AppStateManager extends ChangeNotifier {
   void login(bool loggedin) {
     _loggedIn = loggedin;
 
+    notifyListeners();
+  }
+
+  void logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool(prefLoggedIn, false);
+    _loggedIn = false;
+    goToTab(0);
     notifyListeners();
   }
 

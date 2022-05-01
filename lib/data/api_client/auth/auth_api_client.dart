@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import 'package:scholarr_mobile_frontend/models/models.dart';
-import '../../urls.dart';
+import 'urls.dart';
 
 class AuthClient {
   static final urls = AuthUrls();

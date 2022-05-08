@@ -71,17 +71,10 @@ class AppStateManager extends ChangeNotifier {
       },
     );
 
-    initializeSharedPreferences();
-  }
-
-  void initializeSharedPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
-    final bool? loggedIn = prefs.getBool(prefLoggedIn);
-    final bool? onboardingComplete = prefs.getBool(prefOnboardingComplete);
-
-    _username = prefs.getString(prefLoginUsername);
-    _email = prefs.getString(prefLoginEmail);
-    _id = prefs.getInt(prefLoginId);
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final bool? loggedIn = sharedPreferences.getBool(prefLoggedIn);
+    final bool? onboardingComplete =
+        sharedPreferences.getBool(prefOnboardingComplete);
 
     if (onboardingComplete != null) {
       completeOnboarding(onboardingComplete);
@@ -89,13 +82,23 @@ class AppStateManager extends ChangeNotifier {
     if (loggedIn != null) {
       login(loggedIn);
     }
+
+    initializeSharedPreferences();
+  }
+
+  void initializeSharedPreferences() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+
+    _username = sharedPreferences.getString(prefLoginUsername);
+    _email = sharedPreferences.getString(prefLoginEmail);
+    _id = sharedPreferences.getInt(prefLoginId);
   }
 
   void completeOnboarding(bool completed) async {
     _onboardingComplete = completed;
 
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setBool(prefOnboardingComplete, completed);
+    final sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setBool(prefOnboardingComplete, completed);
 
     notifyListeners();
   }
@@ -107,8 +110,13 @@ class AppStateManager extends ChangeNotifier {
   }
 
   void logout() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setBool(prefLoggedIn, false);
+    final sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setBool(prefLoggedIn, false);
+    await sharedPreferences.remove(prefLoginAccess);
+    await sharedPreferences.remove(prefLoginRefresh);
+    await sharedPreferences.remove(prefLoginUsername);
+    await sharedPreferences.remove(prefLoginId);
+    await sharedPreferences.remove(prefLoginEmail);
     _loggedIn = false;
     goToTab(0);
     notifyListeners();

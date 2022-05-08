@@ -1,120 +1,118 @@
-// import 'package:json_annotation/json_annotation.dart';
+// ignore_for_file: non_constant_identifier_names
 
-// part 'classroom.g.dart';
+import 'package:json_annotation/json_annotation.dart';
 
-// @JsonSerializable()
-// class ClassroomCreate {
-//   // String name;
-//   // String faculty;
-//   // String batch;
-//   // String organisation;
+part 'classroom.g.dart';
 
-//   // ClassroomCreate({
-//   //   required this.name,
-//   //   required this.faculty,
-//   //   required this.batch,
-//   //   required this.organisation,
-//   // });
+@JsonSerializable()
+class ClassroomCreate {
+  String name;
+  String subject;
 
-//   factory ClassroomCreate.fromJson(Map<String, dynamic> json) =>
-//       _$ClassroomCreateFromJson(json);
+  ClassroomCreate({
+    required this.name,
+    required this.subject,
+  });
 
-//   Map<String, dynamic> toJson() => _$ClassroomCreateToJson(this);
-// }
+  factory ClassroomCreate.fromJson(Map<String, dynamic> json) =>
+      _$ClassroomCreateFromJson(json);
 
-// @JsonSerializable()
-// class ClassroomItem {
-//   // int id;
-//   // bool active;
-//   // String name;
-//   // String faculty;
-//   // String batch;
-//   // String organisation;
+  Map<String, dynamic> toJson() => _$ClassroomCreateToJson(this);
+}
 
-//   // @JsonKey(name: "_created_date")
-//   // String created_date;
+@JsonSerializable()
+class ClassroomItemDetail {
+  int id;
+  String name;
+  String subject;
+  String classroom_code;
+  bool archive;
+  Map teacher;
 
-//   // ClassroomItem({
-//   //   required this.id,
-//   //   required this.created_date,
-//   //   required this.active,
-//   //   required this.name,
-//   //   required this.faculty,
-//   //   required this.batch,
-//   //   required this.organisation,
-//   // });
+  @JsonKey(name: "_created_date")
+  String created_date;
 
-//   factory ClassroomItem.fromJson(Map<String, dynamic> json) =>
-//       _$ClassroomItemFromJson(json);
+  @JsonKey(name: "_modified_date")
+  String? modified_date;
 
-//   Map<String, dynamic> toJson() => _$ClassroomItemToJson(this);
-// }
+  @JsonKey(name: "_created_by")
+  int created_by;
 
-// @JsonSerializable()
-// class ClassroomItemList {
-//   // List student_classrooms;
-//   // List created_classrooms;
+  ClassroomItemDetail({
+    required this.id,
+    required this.name,
+    required this.subject,
+    required this.classroom_code,
+    required this.archive,
+    required this.teacher,
+    required this.created_date,
+    required this.modified_date,
+    required this.created_by,
+  });
 
-//   // ClassroomItemList({
-//   //   required this.student_classrooms,
-//   //   required this.created_classrooms,
-//   //   // required this.count,
-//   // });
+  factory ClassroomItemDetail.fromJson(Map<String, dynamic> json) =>
+      _$ClassroomItemDetailFromJson(json);
 
-//   factory ClassroomItemList.fromJson(Map<String, dynamic> json) =>
-//       _$ClassroomItemListFromJson(json);
+  Map<String, dynamic> toJson() => _$ClassroomItemDetailToJson(this);
+}
 
-//   Map<String, dynamic> toJson() => _$ClassroomItemListToJson(this);
-// }
+@JsonSerializable()
+class ClassroomItemList {
+  List studying_classrooms;
+  List teaching_classrooms;
 
-// @JsonSerializable()
-// class ClassroomItemDetail {
-//   // int id;
-//   // bool active;
-//   // String classroom_code;
-//   // String name;
-//   // String faculty;
-//   // String batch;
-//   // String organisation;
+  ClassroomItemList({
+    required this.studying_classrooms,
+    required this.teaching_classrooms,
+    // required this.count,
+  });
 
-//   // @JsonKey(name: "_created_date")
-//   // String created_date;
+  factory ClassroomItemList.fromJson(Map<String, dynamic> json) =>
+      _$ClassroomItemListFromJson(json);
 
-//   // @JsonKey(name: "_modified_date")
-//   // String modified_date;
+  Map<String, dynamic> toJson() => _$ClassroomItemListToJson(this);
+}
 
-//   // @JsonKey(name: "_created_by")
-//   // Map<String, dynamic> created_by;
+@JsonSerializable()
+class ClassroomItem {
+  int id;
+  String name;
+  String subject;
+  String classroom_code;
+  bool archive;
+  Map teacher;
 
-//   // ClassroomItemDetail({
-//   //   required this.id,
-//   //   required this.created_by,
-//   //   required this.created_date,
-//   //   required this.modified_date,
-//   //   required this.classroom_code,
-//   //   required this.active,
-//   //   required this.name,
-//   //   required this.faculty,
-//   //   required this.batch,
-//   //   required this.organisation,
-//   // });
+  @JsonKey(name: "_created_date")
+  String created_date;
 
-//   factory ClassroomItemDetail.fromJson(Map<String, dynamic> json) =>
-//       _$ClassroomItemDetailFromJson(json);
+  ClassroomItem({
+    required this.id,
+    required this.name,
+    required this.subject,
+    required this.classroom_code,
+    required this.archive,
+    required this.teacher,
+    required this.created_date,
+  });
 
-//   Map<String, dynamic> toJson() => _$ClassroomItemDetailToJson(this);
-// }
+  factory ClassroomItem.fromJson(Map<String, dynamic> json) =>
+      _$ClassroomItemFromJson(json);
 
-// @JsonSerializable()
-// class ClassroomMemberList {
-//   // List? members;
+  Map<String, dynamic> toJson() => _$ClassroomItemToJson(this);
+}
 
-//   // ClassroomMemberList({
-//   //   required this.members,
-//   // });
+@JsonSerializable()
+class ClassroomMemberList {
+  List? student;
+  List? teacher;
 
-//   factory ClassroomMemberList.fromJson(Map<String, dynamic> json) =>
-//       _$ClassroomMemberListFromJson(json);
+  ClassroomMemberList({
+    required this.student,
+    required this.teacher,
+  });
 
-//   Map<String, dynamic> toJson() => _$ClassroomMemberListToJson(this);
-// }
+  factory ClassroomMemberList.fromJson(Map<String, dynamic> json) =>
+      _$ClassroomMemberListFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ClassroomMemberListToJson(this);
+}

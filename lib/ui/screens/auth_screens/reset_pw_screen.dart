@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:scholarr_mobile_frontend/ui/components/components.dart';
 import 'package:scholarr_mobile_frontend/models/models.dart';
+import 'package:scholarr_mobile_frontend/ui/components/components.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
   static MaterialPage page() {

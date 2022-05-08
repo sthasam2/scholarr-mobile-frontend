@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:scholarr_mobile_frontend/models/classgroup_manager.dart';
 
 import 'package:scholarr_mobile_frontend/models/models.dart';
-import 'package:scholarr_mobile_frontend/ui/screens/home_screens/classgroup_screens/classgroup_detail_screen.dart';
 import 'package:scholarr_mobile_frontend/ui/screens/screens.dart';
-import 'package:scholarr_mobile_frontend/models/app_state_manager.dart'
-    show AppTab;
 
 class AppRouter extends RouterDelegate
     with ChangeNotifier, PopNavigatorRouterDelegateMixin {
@@ -14,19 +10,27 @@ class AppRouter extends RouterDelegate
 
   final AppStateManager appStateManager;
   final ClassgroupManager classgroupManager;
+  final ClassroomManager classroomManager;
+  final ClasscontentManager classroomContentManager;
 
   AppRouter({
     required this.appStateManager,
     required this.classgroupManager,
+    required this.classroomManager,
+    required this.classroomContentManager,
   }) : navigatorKey = GlobalKey<NavigatorState>() {
     appStateManager.addListener(notifyListeners);
     classgroupManager.addListener(notifyListeners);
+    classroomManager.addListener(notifyListeners);
+    classroomContentManager.addListener(notifyListeners);
   }
 
   @override
   void dispose() {
     appStateManager.removeListener(notifyListeners);
     classgroupManager.removeListener(notifyListeners);
+    classroomManager.removeListener(notifyListeners);
+    classroomContentManager.removeListener(notifyListeners);
     super.dispose();
   }
 
@@ -62,6 +66,28 @@ class AppRouter extends RouterDelegate
         if (classgroupManager.isGettingDetail)
           ClassgroupDetailScreen.page(classgroupManager),
 
+        // CLASSROOM
+        if (appStateManager.isLoggedIn &&
+            appStateManager.getSelectedTab == AppTab.classrooms)
+          ClassroomScreen.page(),
+        if (classroomManager.isCreatingNewItem) ClassroomItemScreen.page(),
+        if (classroomManager.isGettingDetail)
+          ClassroomDetailScreen.page(classroomManager),
+
+        // CLASSCONTENT
+        if (classroomContentManager.isCreatingNewItem)
+          ClassContentItemScreen.page(
+            classcontentManager: classroomContentManager,
+          ),
+        if (classroomContentManager.isGettingDetail)
+          ClassroomContentDetailScreen.page(
+            classcontentManager: classroomContentManager,
+          ),
+        if (classroomContentManager.isCreatingSubmissionItem)
+          ClassworkSubmissionItemScreen.page(
+            classcontentManager: classroomContentManager,
+          ),
+
         // SETTINGS
         if (appStateManager.isLoggedIn &&
             appStateManager.getSelectedTab == AppTab.settings)
@@ -95,12 +121,37 @@ class AppRouter extends RouterDelegate
     if (route.settings.name == AppPages.classgroupItemDetailPath) {
       classgroupManager.resetClassgroupDetail();
     }
-
     if (route.settings.name == AppPages.classgroupItemPath) {
       appStateManager.goToTab(AppTab.classgroups);
     }
     if (route.settings.name == AppPages.classgroupItemDetailPath) {
       classgroupManager.resetClassgroupDetail();
+    }
+
+    // CLASSROOM
+    if (route.settings.name == AppPages.classroomPath) {
+      // appStateManager.showMenu(true);
+      appStateManager.goToTab(AppTab.home);
+    }
+    if (route.settings.name == AppPages.classroomItemPath) {
+      classroomManager.cancelCreateNewItem();
+    }
+    if (route.settings.name == AppPages.classroomItemDetailPath) {
+      classroomManager.resetClassroomDetail();
+    }
+
+    // CLASSCONTENT
+    if (route.settings.name == AppPages.classroomContentPath) {
+      appStateManager.goToTab(AppTab.home);
+    }
+    if (route.settings.name == AppPages.classroomContentItemPath) {
+      classroomContentManager.cancelCreateNewItem();
+    }
+    if (route.settings.name == AppPages.classroomContentItemDetailPath) {
+      classroomContentManager.resetClasscontentDetail();
+    }
+    if (route.settings.name == AppPages.classroomContentSubmissionItemPath) {
+      classroomContentManager.cancelCreateSubmissionItem();
     }
 
     // MENU

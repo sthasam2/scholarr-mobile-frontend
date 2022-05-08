@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import 'package:scholarr_mobile_frontend/ui/components/components.dart';
 import 'package:scholarr_mobile_frontend/models/models.dart';
+import 'package:scholarr_mobile_frontend/ui/components/components.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   static MaterialPage page() {
@@ -70,7 +70,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                       children: [
                         SizedBox(
                           height: 120,
-                          child: Expanded(
+                          child: Flexible(
                             child: Text(
                               "FORGOT\nPASSWORD",
                               textAlign: TextAlign.center,

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:scholarr_mobile_frontend/models/app_state_manager.dart';
 
-import 'package:scholarr_mobile_frontend/ui/components/components.dart';
-import 'package:scholarr_mobile_frontend/models/models.dart';
+import 'package:provider/provider.dart';
+
 import 'package:scholarr_mobile_frontend/data/data.dart';
+import 'package:scholarr_mobile_frontend/models/app_state_manager.dart';
+import 'package:scholarr_mobile_frontend/models/models.dart';
+import 'package:scholarr_mobile_frontend/ui/components/components.dart';
 import 'package:scholarr_mobile_frontend/ui/screens/screens.dart';
 
 class ClassgroupItemScreen extends StatefulWidget {
@@ -153,13 +154,13 @@ class _ClassgroupItemScreen extends State<ClassgroupItemScreen> {
                   ),
                 ),
               ]),
-          // _response != null && _isSubmitSuccess
-          //     ? successInfoBox(
-          //         context,
-          //         _response.success["message"],
-          //         _response.success["verbose"],
-          //       )
-          //     : Container(),
+          _response != null && _isSubmitSuccess
+              ? successInfoBox(
+                  context,
+                  _response.success["message"],
+                  _response.success["verbose"],
+                )
+              : Container(),
           _response != null && _isSubmitFailure
               ? errorInfoBox(
                   context,
@@ -170,34 +171,38 @@ class _ClassgroupItemScreen extends State<ClassgroupItemScreen> {
           const SizedBox(height: 20),
           textField(
             context,
-            const Icon(Icons.title_rounded),
+            Icons.title_rounded,
             'Name',
             false,
             _nameController,
+            TextInputType.text,
           ),
           const SizedBox(height: 20),
           textField(
             context,
-            const Icon(Icons.calendar_today_rounded),
+            Icons.calendar_today_rounded,
             'Batch',
             false,
             _batchController,
+            TextInputType.number,
           ),
           const SizedBox(height: 20),
           textField(
             context,
-            const Icon(Icons.school_rounded),
+            Icons.school_rounded,
             'Faculty',
             false,
             _facultyController,
+            TextInputType.text,
           ),
           const SizedBox(height: 20),
           textField(
             context,
-            const Icon(Icons.business_rounded),
+            Icons.business_rounded,
             'Organisation',
             false,
             _organisationController,
+            TextInputType.text,
           ),
           const SizedBox(height: 40),
           buildSubmitButton(context, "SUBMIT"),

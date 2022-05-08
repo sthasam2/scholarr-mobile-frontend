@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
+
 import 'package:scholarr_mobile_frontend/models/app_state_manager.dart';
 
 Widget menuCard(BuildContext context, ImageProvider imageProvider, String label,
@@ -17,7 +19,7 @@ Widget menuCard(BuildContext context, ImageProvider imageProvider, String label,
         borderRadius: BorderRadius.circular(20),
         splashColor: Colors.blue.withAlpha(30),
         onTap: () {
-          debugPrint('Card tapped.');
+          debugPrint('Menu Card tapped.');
           Provider.of<AppStateManager>(context, listen: false).showMenu(false);
           Provider.of<AppStateManager>(context, listen: false)
               .goToTab(indexToGoTo);

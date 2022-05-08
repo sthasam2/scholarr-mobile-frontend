@@ -31,6 +31,15 @@ class AuthClient {
         return Error.fromJson(jsonDecode(response.body));
         // throw Exception("Failed to register user");
       }
+    } on SocketException {
+      final jsonResponse = json.encode({
+        'status': 400,
+        'error': {
+          'message': "Connection Error",
+          'verbose': "Could not connect to the server. Please try again",
+        }
+      });
+      return Error.fromJson(jsonDecode(jsonResponse));
     } on FormatException {
       final jsonResponse = json.encode({
         'status': 400,
@@ -125,6 +134,15 @@ class AuthClient {
         // throw Exception("Failed to register user");
         return Error.fromJson(jsonDecode(response.body));
       }
+    } on SocketException {
+      final jsonResponse = json.encode({
+        'status': 400,
+        'error': {
+          'message': "Connection Error",
+          'verbose': "Could not connect to the server. Please try again",
+        }
+      });
+      return Error.fromJson(jsonDecode(jsonResponse));
     } on FormatException {
       final jsonResponse = json.encode({
         'status': 400,

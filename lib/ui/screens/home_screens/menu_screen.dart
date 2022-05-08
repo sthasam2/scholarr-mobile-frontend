@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:scholarr_mobile_frontend/ui/components/components.dart';
 import 'package:scholarr_mobile_frontend/models/models.dart';
+import 'package:scholarr_mobile_frontend/ui/components/components.dart';
 
 import 'package:scholarr_mobile_frontend/models/app_state_manager.dart'
     show AppTab;
@@ -44,23 +44,6 @@ class MenuScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Row(
-                //   mainAxisSize: MainAxisSize.max,
-                //   mainAxisAlignment: MainAxisAlignment.start,
-                //   children: [
-                //     Padding(
-                //       padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                //       child: Text(
-                //         "SCHOLARR MOBILE",
-                //         style: Theme.of(context).textTheme.headlineMedium,
-                //       ),
-                //     ),
-                //     const Spacer(),
-                //   ],
-                // ),
-                // const SizedBox(
-                //   height: 40,
-                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

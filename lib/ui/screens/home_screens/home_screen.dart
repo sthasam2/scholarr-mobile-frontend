@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 
-import 'package:scholarr_mobile_frontend/ui/components/components.dart';
 import 'package:scholarr_mobile_frontend/models/models.dart';
+import 'package:scholarr_mobile_frontend/ui/components/components.dart';
 import 'package:scholarr_mobile_frontend/ui/screens/screens.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -29,90 +29,31 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  static List<Widget> pages = <Widget>[
-    // static const int home = 0;
-    // static const int menu = 1;
-    // static const int planner = 2;
-    // static const int resources = 3;
-    // static const int classgroups = 4;
-    // static const int classrooms = 5;
-    // static const int settings = 6;
-    const MenuScreen(),
-    const ClassgroupScreen(),
-  ];
-
-  bool _pinned = true;
-  bool _floating = false;
-  bool _snap = false;
-
-  // @override
-  // void initState() {
-  //   Provider.of<AppStateManager>(context, listen: false)
-  //       .initializeSharedPreferences();
-  //   super.initState();
-  // }
-
   String greeting() {
     var hour = DateTime.now().hour;
     if (hour < 12) {
       return 'GOOD MORNING';
-    }
-    if (hour < 17) {
+    } else if (hour < 17) {
       return 'GOOD AFTERNOON';
+    } else {
+      return 'GOOD EVENING';
     }
-    return 'GOOD EVENING';
   }
 
-  // List schedules = [
-  //   {
-  //     "title": "COMP 311",
-  //     "icon": const Icon(
-  //       Icons.computer,
-  //       size: 40,
-  //     ),
-  //     "day": 3,
-  //     "person": "Ms. X AB",
-  //     "startTime": "12:00",
-  //     "endTime": "14:00",
-  //     "link": "https:google.com",
-  //   },
-  //   {
-  //     "title": "COMP 311",
-  //     "icon": const Icon(
-  //       Icons.computer,
-  //       size: 40,
-  //     ),
-  //     "day": 3,
-  //     "person": "Ms. X AB",
-  //     "startTime": "12:00",
-  //     "endTime": "14:00",
-  //     "link": "https:google.com",
-  //   },
-  //   {
-  //     "title": "COMP 311",
-  //     "icon": const Icon(
-  //       Icons.computer,
-  //       size: 40,
-  //     ),
-  //     "day": 3,
-  //     "person": "Ms. X AB",
-  //     "startTime": "12:00",
-  //     "endTime": "14:00",
-  //     "link": "https:google.com",
-  //   },
-  //   {
-  //     "title": "COMP 311",
-  //     "icon": const Icon(
-  //       Icons.computer,
-  //       size: 40,
-  //     ),
-  //     "day": 3,
-  //     "person": "Ms. X AB",
-  //     "startTime": "12:00",
-  //     "endTime": "14:00",
-  //     "link": "https:google.com",
-  //   },
-  // ];
+  @override
+  void initState() {
+    Provider.of<AppStateManager>(context, listen: false)
+        .initializeSharedPreferences();
+
+    final classroom_manager =
+        Provider.of<ClassroomManager>(context, listen: false);
+
+    final classroomItems = classroom_manager.getClassroomItems();
+
+    // createdClassroomItems = widget.manager.teachingClassroomItems;
+    // studentClassroomItems = widget.manager.studyingClassroomItems;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +78,9 @@ class _HomeScreenState extends State<HomeScreen> {
             context, const Icon(Icons.menu_rounded), true),
         floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
         body: RefreshIndicator(
-          onRefresh: () async {},
+          onRefresh: () async {
+            setState(() {});
+          },
           child: ListView(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
             scrollDirection: Axis.vertical,

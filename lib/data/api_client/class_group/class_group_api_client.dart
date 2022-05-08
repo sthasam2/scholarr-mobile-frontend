@@ -1,12 +1,13 @@
-import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:scholarr_mobile_frontend/models/models.dart';
 import 'package:scholarr_mobile_frontend/cache/utils.dart';
+import 'package:scholarr_mobile_frontend/models/models.dart';
 import 'urls.dart';
 
 class ClassGroupClient {
@@ -14,8 +15,9 @@ class ClassGroupClient {
 
   Future<dynamic> getClassgroupDetail(int classgroup_id) async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final String? accessToken = prefs.getString('previousLoginAccess');
+      final sharedPreferences = await SharedPreferences.getInstance();
+      final String? accessToken =
+          sharedPreferences.getString('previousLoginAccess');
 
       final classgroupURL = Uri.parse(urls.detailClassgroupURL(classgroup_id));
       final classgroupMemberURL =
@@ -53,6 +55,15 @@ class ClassGroupClient {
         return Error.fromJson(jsonDecode(classgroupResponse.body));
         // throw Exception("Failed to register user");
       }
+    } on SocketException {
+      final jsonResponse = json.encode({
+        'status': 400,
+        'error': {
+          'message': "Connection Error",
+          'verbose': "Could not connect to the server. Please try again",
+        }
+      });
+      return Error.fromJson(jsonDecode(jsonResponse));
     } on FormatException {
       final jsonResponse = json.encode({
         'status': 400,
@@ -66,8 +77,8 @@ class ClassGroupClient {
       final jsonResponse = json.encode({
         'status': 400,
         'error': {
-          'message': "Empty ",
-          'verbose': "Input fields must not be empty",
+          'message': "Http error ",
+          'verbose': "Something Went Wrong",
         }
       });
       return Error.fromJson(jsonDecode(jsonResponse));
@@ -76,8 +87,9 @@ class ClassGroupClient {
 
   Future<dynamic> getClassgroupList() async {
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final String? accessToken = prefs.getString('previousLoginAccess');
+      final sharedPreferences = await SharedPreferences.getInstance();
+      final String? accessToken =
+          sharedPreferences.getString('previousLoginAccess');
 
       final url = Uri.parse(urls.selfListClassgroupURL());
 
@@ -122,6 +134,15 @@ class ClassGroupClient {
         return Error.fromJson(jsonDecode(response.body));
         // throw Exception("Failed to register user");
       }
+    } on SocketException {
+      final jsonResponse = json.encode({
+        'status': 400,
+        'error': {
+          'message': "Connection Error",
+          'verbose': "Could not connect to the server. Please try again",
+        }
+      });
+      return Error.fromJson(jsonDecode(jsonResponse));
     } on FormatException {
       final jsonResponse = json.encode({
         'status': 400,
@@ -135,8 +156,8 @@ class ClassGroupClient {
       final jsonResponse = json.encode({
         'status': 400,
         'error': {
-          'message': "Empty ",
-          'verbose': "Input fields must not be empty",
+          'message': "Http error ",
+          'verbose': "Something Went Wrong",
         }
       });
       return Error.fromJson(jsonDecode(jsonResponse));
@@ -150,8 +171,9 @@ class ClassGroupClient {
         throw const FormatException("Input fields must not be empty");
       }
 
-      final prefs = await SharedPreferences.getInstance();
-      final String? accessToken = prefs.getString('previousLoginAccess');
+      final sharedPreferences = await SharedPreferences.getInstance();
+      final String? accessToken =
+          sharedPreferences.getString('previousLoginAccess');
 
       final url = Uri.parse(urls.createClassgroupURL());
 
@@ -176,6 +198,15 @@ class ClassGroupClient {
         return Error.fromJson(jsonDecode(response.body));
         // throw Exception("Failed to register user");
       }
+    } on SocketException {
+      final jsonResponse = json.encode({
+        'status': 400,
+        'error': {
+          'message': "Connection Error",
+          'verbose': "Could not connect to the server. Please try again",
+        }
+      });
+      return Error.fromJson(jsonDecode(jsonResponse));
     } on FormatException {
       final jsonResponse = json.encode({
         'status': 400,
@@ -189,8 +220,8 @@ class ClassGroupClient {
       final jsonResponse = json.encode({
         'status': 400,
         'error': {
-          'message': "Empty ",
-          'verbose': "Input fields must not be empty",
+          'message': "Http error ",
+          'verbose': "Something Went Wrong",
         }
       });
       return Error.fromJson(jsonDecode(jsonResponse));
@@ -209,8 +240,8 @@ class ClassGroupClient {
         throw const FormatException("Input fields must not be empty");
       }
 
-      final prefs = await SharedPreferences.getInstance();
-      final String? accessToken = prefs.getString(prefLoginAccess);
+      final sharedPreferences = await SharedPreferences.getInstance();
+      final String? accessToken = sharedPreferences.getString(prefLoginAccess);
 
       final url = Uri.parse(urls.updateClassgroupURL(id));
       final response = await http.post(
@@ -233,6 +264,15 @@ class ClassGroupClient {
         return Error.fromJson(jsonDecode(response.body));
         // throw Exception("Failed to register user");
       }
+    } on SocketException {
+      final jsonResponse = json.encode({
+        'status': 400,
+        'error': {
+          'message': "Connection Error",
+          'verbose': "Could not connect to the server. Please try again",
+        }
+      });
+      return Error.fromJson(jsonDecode(jsonResponse));
     } on FormatException {
       final jsonResponse = json.encode({
         'status': 400,

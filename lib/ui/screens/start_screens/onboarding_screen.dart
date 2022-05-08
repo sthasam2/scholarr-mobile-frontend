@@ -44,7 +44,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            Expanded(child: buildPages(context)),
+            Flexible(child: buildPages(context)),
             buildIndicator(),
             buildActionButtons(context, "Skip to Login"),
           ],
@@ -105,7 +105,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(
+          Flexible(
             child: Image(
               fit: BoxFit.fitWidth,
               image: imageProvider,

@@ -1,10 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 
-import 'package:scholarr_mobile_frontend/ui/components/components.dart';
 import 'package:scholarr_mobile_frontend/models/models.dart';
+import 'package:scholarr_mobile_frontend/ui/components/components.dart';
 
 import 'package:scholarr_mobile_frontend/models/app_state_manager.dart'
     show AppTab;

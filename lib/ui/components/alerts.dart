@@ -17,7 +17,7 @@ Widget alertInfoBox(String message) {
         children: [
           Icon(Icons.info_outline, color: Colors.blue.withOpacity(0.8)),
           const SizedBox(width: 10),
-          Expanded(
+          Flexible(
             child: Text(
               message,
               style: GoogleFonts.montserrat(
@@ -48,7 +48,7 @@ Widget successInfoBox(BuildContext context, String title, String message) {
           children: [
             Icon(Icons.done, color: _foregroundColor),
             const SizedBox(width: 10.0),
-            Expanded(
+            Flexible(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -97,7 +97,7 @@ Widget errorInfoBox(BuildContext context, String title, dynamic message) {
           children: [
             Icon(Icons.warning, color: _foregroundColor),
             const SizedBox(width: 10.0),
-            Expanded(
+            Flexible(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

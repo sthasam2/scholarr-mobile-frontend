@@ -32,12 +32,13 @@ Widget buildTextField(
   );
 }
 
-textField(
+Widget textField(
   BuildContext context,
-  Icon icon,
+  IconData? icon,
   String hintText,
   bool obscureText,
   TextEditingController controller,
+  TextInputType? textInputType,
 ) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,6 +54,9 @@ textField(
         obscureText: obscureText,
         enableSuggestions: !obscureText,
         autocorrect: !obscureText,
+        minLines: 1,
+        maxLines: textInputType == TextInputType.multiline ? 5 : 1,
+        keyboardType: textInputType ?? TextInputType.text,
         style: Theme.of(context).textTheme.bodyMedium,
         cursorColor: selectionColor,
         controller: controller,
@@ -74,7 +78,7 @@ textField(
             focusColor: const Color.fromARGB(255, 113, 113, 113),
             hintText: hintText,
             hintStyle: const TextStyle(height: 1),
-            prefixIcon: icon),
+            prefixIcon: icon == null ? null : Icon(icon)),
       ),
     ],
   );

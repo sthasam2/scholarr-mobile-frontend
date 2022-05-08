@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:scholarr_mobile_frontend/models/models.dart';
 
 Widget ClassGroupCard(BuildContext context, ClassGroupItem classgroup) {

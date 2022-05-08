@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'classgroups/classgroup.dart';
 import 'package:scholarr_mobile_frontend/data/data.dart';
 import 'package:scholarr_mobile_frontend/models/models.dart';
+import 'classgroups/classgroup.dart';
 
 class ClassgroupManager extends ChangeNotifier {
   // ATTRIBUTES
-  int _selectedIndex = -1;
+  int _selectedClassroomIndex = -1;
   bool _createNewItem = false;
   bool _gettingDetail = false;
 
@@ -17,7 +17,7 @@ class ClassgroupManager extends ChangeNotifier {
   final ClassGroupClient _classGroupClient = ClassGroupClient();
 
   // GETTERS
-  int get selectedIndex => _selectedIndex;
+  int get selectedIndex => _selectedClassroomIndex;
   bool get isCreatingNewItem => _createNewItem;
   bool get isGettingDetail => _gettingDetail;
 
@@ -49,9 +49,9 @@ class ClassgroupManager extends ChangeNotifier {
   }
 
   void setSelectedClassGroupItemDetail() async {
-    if (_selectedIndex != -1) {
+    if (_selectedClassroomIndex != -1) {
       final classgroupDetail =
-          await _classGroupClient.getClassgroupDetail(_selectedIndex);
+          await _classGroupClient.getClassgroupDetail(_selectedClassroomIndex);
 
       _selectedClassgroupItemDetail = classgroupDetail;
     }
@@ -59,9 +59,9 @@ class ClassgroupManager extends ChangeNotifier {
   }
 
   Future<Map> getSelectedClassGroupItemDetail() async {
-    if (_selectedIndex != -1) {
+    if (_selectedClassroomIndex != -1) {
       final classgroupDetail =
-          await _classGroupClient.getClassgroupDetail(_selectedIndex);
+          await _classGroupClient.getClassgroupDetail(_selectedClassroomIndex);
 
       _selectedClassgroupItemDetail = classgroupDetail;
       return classgroupDetail;
@@ -83,13 +83,13 @@ class ClassgroupManager extends ChangeNotifier {
   void classgroupItemTapped(int index) {
     _gettingDetail = true;
     _createNewItem = false;
-    _selectedIndex = index;
+    _selectedClassroomIndex = index;
     notifyListeners();
   }
 
   void resetClassgroupDetail() {
     _gettingDetail = false;
-    _selectedIndex = -1;
+    _selectedClassroomIndex = -1;
     _selectedClassgroupItemDetail = {};
   }
 
@@ -104,7 +104,7 @@ class ClassgroupManager extends ChangeNotifier {
   }
 
   void updateItem(ClassGroupItem item, int index) {
-    _selectedIndex = -1;
+    _selectedClassroomIndex = -1;
     _createNewItem = false;
     notifyListeners();
   }

@@ -29,7 +29,7 @@ class AppTheme {
       color: Colors.black,
     ),
     headlineMedium: GoogleFonts.montserrat(
-      fontSize: 20.0,
+      fontSize: 24.0,
       fontWeight: FontWeight.w700,
       color: Colors.black,
     ),
@@ -50,6 +50,11 @@ class AppTheme {
     ),
     labelMedium: GoogleFonts.montserrat(
       fontSize: 14.0,
+      fontWeight: FontWeight.w300,
+      color: Colors.black,
+    ),
+    labelSmall: GoogleFonts.montserrat(
+      fontSize: 11.0,
       fontWeight: FontWeight.w300,
       color: Colors.black,
     ),
@@ -77,7 +82,7 @@ class AppTheme {
       color: Colors.white,
     ),
     headlineMedium: GoogleFonts.montserrat(
-      fontSize: 20.0,
+      fontSize: 24.0,
       fontWeight: FontWeight.w700,
       color: Colors.white,
     ),
@@ -98,6 +103,11 @@ class AppTheme {
     ),
     labelMedium: GoogleFonts.montserrat(
       fontSize: 14.0,
+      fontWeight: FontWeight.w300,
+      color: Colors.white,
+    ),
+    labelSmall: GoogleFonts.montserrat(
+      fontSize: 11.0,
       fontWeight: FontWeight.w300,
       color: Colors.white,
     ),
@@ -123,6 +133,7 @@ class AppTheme {
       ),
       textTheme: lightTextTheme,
       primaryColor: Color.fromARGB(23, 0, 0, 0),
+      indicatorColor: Color.fromARGB(255, 255, 0, 0),
       useMaterial3: true,
     );
   }
@@ -144,6 +155,7 @@ class AppTheme {
       ),
       textTheme: darkTextTheme,
       primaryColor: Color.fromARGB(24, 255, 255, 255),
+      indicatorColor: Color.fromARGB(255, 251, 0, 0),
       useMaterial3: true,
     );
   }

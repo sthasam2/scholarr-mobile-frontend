@@ -1,42 +1,47 @@
 import '../../urls.dart' show URL;
 
 class ClassroomUrls {
+  //
+  // CLASSROOM
+
   String classroomURL() => URL + '/api/classroom';
 
-  String listClassroomURL() => classroomURL() + '/list';
-  String selfListClassroomURL() => classroomURL() + '/self/list';
+  String listClassroomURL() => URL + '/api/classroom/list';
+  String selfListClassroomURL() => URL + '/api/classroom/self/list';
 
-  String createClassroomURL() => classroomURL() + '/create';
-  String idClassroomURL(String classroom_id) =>
+  String createClassroomURL() => URL + '/api/classroom/create';
+
+  String idClassroomURL(int classroom_id) =>
       URL + '/api/classroom/id=$classroom_id';
-  String detailClassroomURL(String classroom_id) =>
-      idClassroomURL(classroom_id) + '/detail';
-  String updateClassroomURL(String classroom_id) =>
-      idClassroomURL(classroom_id) + '/update';
-  String toggleArchiveClassroomURL(String classroom_id) =>
-      idClassroomURL(classroom_id) + '/toggle_archive';
-  String deleteClassroomURL(String classroom_id) =>
-      idClassroomURL(classroom_id) + '/delete';
+  String detailClassroomURL(int classroom_id) =>
+      URL + '/api/classroom/id=$classroom_id/detail';
+  String updateClassroomURL(int classroom_id) =>
+      URL + '/api/classroom/id=$classroom_id/update';
+  String toggleArchiveClassroomURL(int classroom_id) =>
+      URL + '/api/classroom/id=$classroom_id/toggle_archive';
+  String deleteClassroomURL(int classroom_id) =>
+      URL + '/api/classroom/id=$classroom_id/delete';
 
-  String listInviteRequestClassroomURL(String classroom_id) =>
-      idClassroomURL(classroom_id) + '/invite_request/list';
-  String listMemberClassroomURL(String classroom_id) =>
-      idClassroomURL(classroom_id) + '/member/list';
+  // CLASSROOM MEMBER
+  String listInviteRequestClassroomURL(int classroom_id) =>
+      URL + '/api/classroom/id=$classroom_id/invite_request/list';
+  String listMemberClassroomURL(int classroom_id) =>
+      URL + '/api/classroom/id=$classroom_id/member/list';
   String selfListInviteRequestClassroomURL() =>
-      classroomURL() + '/invite_request/self/list';
+      URL + '/api/classroom/invite_request/self/list';
 
-  String createInviteClassrooomURL() => classroomURL() + '/invite/create';
-  String createRequestClassrooomURL() => classroomURL() + '/request/create';
+  String createInviteClassrooomURL() => URL + '/api/classroom/invite/create';
+  String createRequestClassrooomURL() => URL + '/api/classroom/request/create';
 
-  String idInviteRequestClassroomURL(String invite_request_id) =>
-      classroomURL() + '/id=$invite_request_id';
+  // String idInviteRequestClassroomURL(String invite_request_id) =>
+  //     URL + '/api/classroom/id=$invite_request_id';
 
-  String acceptInviteRequestClassroomURL(String invite_request_id) =>
-      idInviteRequestClassroomURL(invite_request_id) + '/request/accept';
-  String rejectInviteRequestClassroomURL(String invite_request_id) =>
-      idInviteRequestClassroomURL(invite_request_id) + '/request/reject';
-  String deleteInviteRequestClassroomURL(String invite_request_id) =>
-      idInviteRequestClassroomURL(invite_request_id) + '/request/delete';
-  String detailInviteRequestClassroomURL(String invite_request_id) =>
-      idInviteRequestClassroomURL(invite_request_id) + '/request/detail';
+  String acceptInviteRequestClassroomURL(int invite_request_id) =>
+      URL + '/api/classroom/id=$invite_request_id/request/accept';
+  String rejectInviteRequestClassroomURL(int invite_request_id) =>
+      URL + '/api/classroom/id=$invite_request_id/request/reject';
+  String deleteInviteRequestClassroomURL(int invite_request_id) =>
+      URL + '/api/classroom/id=$invite_request_id/request/delete';
+  String detailInviteRequestClassroomURL(int invite_request_id) =>
+      URL + '/api/classroom/id=$invite_request_id/request/detail';
 }

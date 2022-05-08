@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-import 'package:scholarr_mobile_frontend/ui/components/components.dart';
 import 'package:scholarr_mobile_frontend/data/data.dart';
 import 'package:scholarr_mobile_frontend/models/models.dart';
+import 'package:scholarr_mobile_frontend/ui/components/components.dart';
 
 class SignUpScreen extends StatefulWidget {
   final String? username;
@@ -118,26 +118,29 @@ class SignUpScreenState extends State<SignUpScreen> {
           const SizedBox(height: 20),
           textField(
             context,
-            const Icon(Icons.account_circle_rounded),
+            Icons.account_circle_rounded,
             'Username',
             false,
             _usernameController,
+            TextInputType.name,
           ),
           const SizedBox(height: 20),
           textField(
             context,
-            const Icon(Icons.email_rounded),
+            Icons.email_rounded,
             'Email',
             false,
             _emailController,
+            TextInputType.emailAddress,
           ),
           const SizedBox(height: 20),
           textField(
             context,
-            const Icon(Icons.lock_rounded),
+            Icons.lock_rounded,
             'Password',
             true,
             _passwordController,
+            TextInputType.visiblePassword,
           ),
           const SizedBox(height: 40),
           buildSignUpButton(context, "SIGN UP"),

@@ -4,9 +4,9 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:scholarr_mobile_frontend/ui/components/components.dart';
 import 'package:scholarr_mobile_frontend/data/data.dart';
 import 'package:scholarr_mobile_frontend/models/models.dart';
+import 'package:scholarr_mobile_frontend/ui/components/components.dart';
 import 'package:scholarr_mobile_frontend/ui/theme.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -57,23 +57,25 @@ class LoginScreenState extends State<LoginScreen> {
   }
 
   void saveLoginTokens(response) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString(prefLoginAccess, response.access!);
-    prefs.setString(prefLoginRefresh, response.refresh!);
-    prefs.setString(prefLoginUsername, response.user_details["username"]!);
-    prefs.setString(prefLoginEmail, response.user_details["email"]!);
-    prefs.setString(prefLoginId, response.user_details["id"]!);
-    prefs.setBool(prefLoggedIn, true);
+    final sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setString(prefLoginAccess, response.access!);
+    sharedPreferences.setString(prefLoginRefresh, response.refresh!);
+    sharedPreferences.setString(
+        prefLoginUsername, response.user_details["username"]!);
+    sharedPreferences.setString(
+        prefLoginEmail, response.user_details["email"]!);
+    sharedPreferences.setInt(prefLoginId, response.user_details["id"]!);
+    sharedPreferences.setBool(prefLoggedIn, true);
   }
 
   Future<Map<String?, String?>> getLoginTokens() async {
-    final prefs = await SharedPreferences.getInstance();
+    final sharedPreferences = await SharedPreferences.getInstance();
 
-    final String? accessToken = prefs.getString(prefLoginAccess);
-    final String? refreshToken = prefs.getString(prefLoginRefresh);
-    final String? username = prefs.getString(prefLoginUsername);
-    final String? email = prefs.getString(prefLoginEmail);
-    final int? id = prefs.getInt(prefLoginId);
+    final String? accessToken = sharedPreferences.getString(prefLoginAccess);
+    final String? refreshToken = sharedPreferences.getString(prefLoginRefresh);
+    final String? username = sharedPreferences.getString(prefLoginUsername);
+    final String? email = sharedPreferences.getString(prefLoginEmail);
+    final int? id = sharedPreferences.getInt(prefLoginId);
 
     return {
       "access": accessToken,
@@ -130,18 +132,20 @@ class LoginScreenState extends State<LoginScreen> {
           const SizedBox(height: 20),
           textField(
             context,
-            const Icon(Icons.alternate_email_rounded),
+            Icons.alternate_email_rounded,
             'Username',
             false,
             _usernameController,
+            TextInputType.text,
           ),
           const SizedBox(height: 20),
           textField(
             context,
-            const Icon(Icons.lock_rounded),
+            Icons.lock_rounded,
             'Password',
             true,
             _passwordController,
+            TextInputType.visiblePassword,
           ),
           buildForgotPwButton(context),
           const SizedBox(height: 40),
@@ -255,126 +259,3 @@ class LoginScreenState extends State<LoginScreen> {
     }
   }
 }
-
-// class LoginScreen extends StatelessWidget {
-//   static MaterialPage page() {
-//     return MaterialPage(
-//         name: AppPages.loginPath,
-//         key: ValueKey(AppPages.loginPath),
-//         child: const LoginScreen());
-//   }
-
-//   const LoginScreen({
-//     Key? key,
-//     this.username,
-//   }) : super(key: key);
-
-//   final String? username;
-
-//   final Color rwColor = const Color.fromARGB(255, 23, 197, 224);
-//   final TextStyle focusedStyle = const TextStyle(color: Colors.blue);
-//   final TextStyle unfocusedStyle = const TextStyle(color: Colors.grey);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: ListView(
-//         scrollDirection: Axis.vertical,
-//         children: [
-//           Padding(
-//             padding: const EdgeInsets.fromLTRB(40, 60, 40, 10),
-//             child: Center(
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.stretch,
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//                   Row(
-//                       crossAxisAlignment: CrossAxisAlignment.center,
-//                       mainAxisAlignment: MainAxisAlignment.center,
-//                       children: [
-//                         SizedBox(
-//                           height: 120,
-//                           child: Text(
-//                             "LOGIN",
-//                             style: Theme.of(context).textTheme.displayLarge,
-//                           ),
-//                         ),
-//                       ]),
-//                   const SizedBox(height: 20),
-//                   buildTextField(
-//                     username ?? 'Username',
-//                     const Icon(Icons.alternate_email_rounded),
-//                     context,
-//                     false,
-//                   ),
-//                   const SizedBox(height: 20),
-//                   buildTextField('Password', const Icon(Icons.lock_rounded),
-//                       context, true),
-//                   buildForgotPwButton(context),
-//                   const SizedBox(height: 40),
-//                   buildButton(context, "LOGIN"),
-//                   buildRegisterButton(context),
-//                 ],
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   Widget buildForgotPwButton(context) {
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: [
-//         MaterialButton(
-//           padding: const EdgeInsets.all(10),
-//           child: Text(
-//             'Forgot Password?',
-//             style: Theme.of(context).textTheme.bodyMedium,
-//           ),
-//           onPressed: () {
-//             Provider.of<AppStateManager>(context, listen: false)
-//                 .forgotPassword();
-//           },
-//         ),
-//       ],
-//     );
-//   }
-
-//   Widget buildRegisterButton(context) {
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: [
-//         MaterialButton(
-//           padding: const EdgeInsets.all(10),
-//           child: Text(
-//             'Create an Account',
-//             style: Theme.of(context).textTheme.bodyMedium,
-//           ),
-//           onPressed: () {
-//             Provider.of<AppStateManager>(context, listen: false).signUpCall();
-//           },
-//         ),
-//       ],
-//     );
-//   }
-
-//   Widget buildButton(BuildContext context, String action) {
-//     return SizedBox(
-//       height: 55,
-//       child: MaterialButton(
-//         color: Colors.red[700],
-//         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-//         child: Text(
-//           action,
-//           style: Theme.of(context).textTheme.bodyLarge,
-//         ),
-//         onPressed: () async {
-//           Provider.of<AppStateManager>(context, listen: false)
-//               .login('mockUsername', 'mockPassword');
-//         },
-//       ),
-//     );
-//   }
-// }

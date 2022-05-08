@@ -1,256 +1,294 @@
-// import 'package:flutter/material.dart';
-// import 'dart:convert';
-// import 'dart:io';
+import 'dart:convert';
+import 'dart:io';
 
-// import 'package:http/http.dart' as http;
-// import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
 
-// import 'package:scholarr_mobile_frontend/models/models.dart';
-// import 'package:scholarr_mobile_frontend/cache/utils.dart';
-// import 'urls.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-// class ClassroomClient {
-//   static final urls = ClassroomUrls();
+import 'package:scholarr_mobile_frontend/cache/utils.dart';
+import 'package:scholarr_mobile_frontend/models/models.dart';
+import 'urls.dart';
 
-//   Future<dynamic> getClassroomDetail(int classroom_id) async {
-//     try {
-//       final prefs = await SharedPreferences.getInstance();
-//       final String? accessToken = prefs.getString('previousLoginAccess');
+class ClassroomClient {
+  static final urls = ClassroomUrls();
 
-//       final classroomURL = Uri.parse(urls.detailClassroomURL(classroom_id));
-//       final classroomMemberURL =
-//           Uri.parse(urls.listMemberClassroomURL(classroom_id));
+  Future<dynamic> getClassroomDetail(int classroom_id) async {
+    try {
+      final sharedPreferences = await SharedPreferences.getInstance();
+      final String? accessToken =
+          sharedPreferences.getString('previousLoginAccess');
 
-//       final classroomResponse = await http.get(
-//         classroomURL,
-//         headers: {
-//           'Content-Type': 'application/json',
-//           'Accept': 'application/json',
-//           'Authorization': 'Bearer $accessToken'
-//         },
-//       );
+      final classroomURL = Uri.parse(urls.detailClassroomURL(classroom_id));
+      final classroomMemberURL =
+          Uri.parse(urls.listMemberClassroomURL(classroom_id));
 
-//       final classroomMemberResponse = await http.get(
-//         classroomMemberURL,
-//         headers: {
-//           'Content-Type': 'application/json',
-//           'Accept': 'application/json',
-//           'Authorization': 'Bearer $accessToken'
-//         },
-//       );
+      final classroomResponse = await http.get(
+        classroomURL,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $accessToken'
+        },
+      );
 
-//       if (classroomResponse.statusCode < 400 &&
-//           classroomMemberResponse.statusCode < 400) {
-//         // debugPrint(response.body);
-//         final ClassroomItemDetail classroom =
-//             ClassroomItemDetail.fromJson(jsonDecode(classroomResponse.body));
+      final classroomMemberResponse = await http.get(
+        classroomMemberURL,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $accessToken'
+        },
+      );
 
-//         final ClassroomMemberList members = ClassroomMemberList.fromJson(
-//             jsonDecode(classroomMemberResponse.body));
+      if (classroomResponse.statusCode < 400 &&
+          classroomMemberResponse.statusCode < 400) {
+        // debugPrint(response.body);
+        final ClassroomItemDetail classroom =
+            ClassroomItemDetail.fromJson(jsonDecode(classroomResponse.body));
 
-//         return {"classroom": classroom, "members": members};
-//       } else {
-//         return Error.fromJson(jsonDecode(classroomResponse.body));
-//         // throw Exception("Failed to register user");
-//       }
-//     } on FormatException {
-//       final jsonResponse = json.encode({
-//         'status': 400,
-//         'error': {
-//           'message': "Empty fields",
-//           'verbose': "Input fields must not be empty",
-//         }
-//       });
-//       return Error.fromJson(jsonDecode(jsonResponse));
-//     } on HttpException catch (error) {
-//       final jsonResponse = json.encode({
-//         'status': 400,
-//         'error': {
-//           'message': "Empty ",
-//           'verbose': "Input fields must not be empty",
-//         }
-//       });
-//       return Error.fromJson(jsonDecode(jsonResponse));
-//     }
-//   }
+        final ClassroomMemberList members = ClassroomMemberList.fromJson(
+            jsonDecode(classroomMemberResponse.body));
 
-//   Future<dynamic> getClassroomList() async {
-//     try {
-//       final prefs = await SharedPreferences.getInstance();
-//       final String? accessToken = prefs.getString('previousLoginAccess');
+        return {"classroom": classroom, "members": members};
+      } else {
+        return Error.fromJson(jsonDecode(classroomResponse.body));
+        // throw Exception("Failed to register user");
+      }
+    } on SocketException {
+      final jsonResponse = json.encode({
+        'status': 400,
+        'error': {
+          'message': "Connection Error",
+          'verbose': "Could not connect to the server. Please try again",
+        }
+      });
+      return Error.fromJson(jsonDecode(jsonResponse));
+    } on FormatException {
+      final jsonResponse = json.encode({
+        'status': 400,
+        'error': {
+          'message': "Empty fields",
+          'verbose': "Input fields must not be empty",
+        }
+      });
+      return Error.fromJson(jsonDecode(jsonResponse));
+    } on HttpException catch (error) {
+      final jsonResponse = json.encode({
+        'status': 400,
+        'error': {
+          'message': "Http error ",
+          'verbose': "Something Went Wrong",
+        }
+      });
+      return Error.fromJson(jsonDecode(jsonResponse));
+    }
+  }
 
-//       final url = Uri.parse(urls.selfListClassroomURL());
+  Future<dynamic> getClassroomList() async {
+    try {
+      final sharedPreferences = await SharedPreferences.getInstance();
+      final String? accessToken =
+          sharedPreferences.getString('previousLoginAccess');
 
-//       final response = await http.get(
-//         url,
-//         headers: {
-//           'Content-Type': 'application/json',
-//           'Accept': 'application/json',
-//           'Authorization': 'Bearer $accessToken'
-//         },
-//       );
+      final url = Uri.parse(urls.selfListClassroomURL());
 
-//       if (response.statusCode < 400) {
-//         debugPrint(response.body);
-//         final ClassroomItemList response_body =
-//             ClassroomItemList.fromJson(jsonDecode(response.body));
+      final response = await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $accessToken'
+        },
+      );
 
-//         final created = response_body.created_classrooms
-//             .map((classroom) => ClassroomItem(
-//                   id: classroom["id"],
-//                   created_date: classroom["_created_date"],
-//                   active: classroom["active"],
-//                   name: classroom["name"],
-//                   faculty: classroom["faculty"],
-//                   batch: classroom["batch"],
-//                   organisation: classroom["organisation"],
-//                 ))
-//             .toList();
-//         final student = response_body.student_classrooms
-//             .map((classroom) => ClassroomItem(
-//                   id: classroom["id"],
-//                   created_date: classroom["_created_date"],
-//                   active: classroom["active"],
-//                   name: classroom["name"],
-//                   faculty: classroom["faculty"],
-//                   batch: classroom["batch"],
-//                   organisation: classroom["organisation"],
-//                 ))
-//             .toList();
-//         return {"created": created, "student": student};
-//       } else {
-//         return Error.fromJson(jsonDecode(response.body));
-//         // throw Exception("Failed to register user");
-//       }
-//     } on FormatException {
-//       final jsonResponse = json.encode({
-//         'status': 400,
-//         'error': {
-//           'message': "Empty fields",
-//           'verbose': "Input fields must not be empty",
-//         }
-//       });
-//       return Error.fromJson(jsonDecode(jsonResponse));
-//     } on HttpException catch (error) {
-//       final jsonResponse = json.encode({
-//         'status': 400,
-//         'error': {
-//           'message': "Empty ",
-//           'verbose': "Input fields must not be empty",
-//         }
-//       });
-//       return Error.fromJson(jsonDecode(jsonResponse));
-//     }
-//   }
+      if (response.statusCode < 400) {
+        debugPrint(response.body);
+        final ClassroomItemList response_body =
+            ClassroomItemList.fromJson(jsonDecode(response.body));
 
-//   Future<dynamic> createClassroom(
-//       String name, String faculty, String batch, String organisation) async {
-//     try {
-//       if (name == "" || faculty == "" || batch == "" || organisation == "") {
-//         throw const FormatException("Input fields must not be empty");
-//       }
+        final teaching_classrooms = response_body.teaching_classrooms
+            .map((classroom) => ClassroomItem(
+                  id: classroom["id"],
+                  created_date: classroom["_created_date"],
+                  archive: classroom["archive"],
+                  name: classroom["name"],
+                  subject: classroom["subject"],
+                  classroom_code: classroom["classroom_code"],
+                  teacher: classroom["teacher"],
+                ))
+            .toList();
 
-//       final prefs = await SharedPreferences.getInstance();
-//       final String? accessToken = prefs.getString('previousLoginAccess');
+        final studying_classrooms = response_body.studying_classrooms
+            .map((classroom) => ClassroomItem(
+                  id: classroom["id"],
+                  created_date: classroom["_created_date"],
+                  archive: classroom["archive"],
+                  name: classroom["name"],
+                  subject: classroom["subject"],
+                  classroom_code: classroom["classroom_code"],
+                  teacher: classroom["teacher"],
+                ))
+            .toList();
 
-//       final url = Uri.parse(urls.createClassroomURL());
+        return {
+          "teaching_classrooms": teaching_classrooms,
+          "studying_classrooms": studying_classrooms
+        };
+      } else {
+        return Error.fromJson(jsonDecode(response.body));
+        // throw Exception("Failed to register user");
+      }
+    } on SocketException {
+      final jsonResponse = json.encode({
+        'status': 400,
+        'error': {
+          'message': "Connection Error",
+          'verbose': "Could not connect to the server. Please try again",
+        }
+      });
+      return Error.fromJson(jsonDecode(jsonResponse));
+    } on FormatException {
+      final jsonResponse = json.encode({
+        'status': 400,
+        'error': {
+          'message': "Empty fields",
+          'verbose': "Input fields must not be empty",
+        }
+      });
+      return Error.fromJson(jsonDecode(jsonResponse));
+    } on HttpException catch (error) {
+      final jsonResponse = json.encode({
+        'status': 400,
+        'error': {
+          'message': "Http error ",
+          'verbose': "Something Went Wrong",
+        }
+      });
+      return Error.fromJson(jsonDecode(jsonResponse));
+    }
+  }
 
-//       final response = await http.post(
-//         url,
-//         headers: {
-//           'Content-Type': 'application/json',
-//           'Accept': 'application/json',
-//           'Authorization': 'Bearer $accessToken'
-//         },
-//         body: jsonEncode({
-//           "name": name,
-//           "faculty": faculty,
-//           "batch": batch,
-//           "organisation": organisation,
-//         }),
-//       );
+  Future<dynamic> createClassroom(String name, String subject) async {
+    try {
+      if (name == "" || subject == "") {
+        throw const FormatException("Input fields must not be empty");
+      }
 
-//       if (response.statusCode < 400) {
-//         return Success.fromJson(jsonDecode(response.body));
-//       } else {
-//         return Error.fromJson(jsonDecode(response.body));
-//         // throw Exception("Failed to register user");
-//       }
-//     } on FormatException {
-//       final jsonResponse = json.encode({
-//         'status': 400,
-//         'error': {
-//           'message': "Empty fields",
-//           'verbose': "Input fields must not be empty",
-//         }
-//       });
-//       return Error.fromJson(jsonDecode(jsonResponse));
-//     } on HttpException catch (error) {
-//       final jsonResponse = json.encode({
-//         'status': 400,
-//         'error': {
-//           'message': "Empty ",
-//           'verbose': "Input fields must not be empty",
-//         }
-//       });
-//       return Error.fromJson(jsonDecode(jsonResponse));
-//     }
-//   }
+      final sharedPreferences = await SharedPreferences.getInstance();
+      final String? accessToken =
+          sharedPreferences.getString('previousLoginAccess');
 
-//   Future<dynamic> updateClassroom(
-//     int id,
-//     String name,
-//     String faculty,
-//     String batch,
-//     String organisation,
-//   ) async {
-//     try {
-//       if (name == "" || faculty == "" || batch == "" || organisation == "") {
-//         throw const FormatException("Input fields must not be empty");
-//       }
+      final url = Uri.parse(urls.createClassroomURL());
 
-//       final prefs = await SharedPreferences.getInstance();
-//       final String? accessToken = prefs.getString(prefLoginAccess);
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': 'Bearer $accessToken'
+        },
+        body: jsonEncode({
+          "name": name,
+          "subject": subject,
+        }),
+      );
 
-//       final url = Uri.parse(urls.updateClassroomURL(id));
-//       final response = await http.post(
-//         url,
-//         headers: {
-//           'Content-Type': 'application/json; charset=UTF-8',
-//           'Authentication': 'Bearer $accessToken'
-//         },
-//         body: jsonEncode({
-//           "name": name,
-//           "faculty": faculty,
-//           "batch": batch,
-//           "organisaion": organisation,
-//         }),
-//       );
+      if (response.statusCode < 400) {
+        return Success.fromJson(jsonDecode(response.body));
+      } else {
+        return Error.fromJson(jsonDecode(response.body));
+      }
+    } on SocketException {
+      final jsonResponse = json.encode({
+        'status': 400,
+        'error': {
+          'message': "Connection Error",
+          'verbose': "Could not connect to the server. Please try again",
+        }
+      });
+      return Error.fromJson(jsonDecode(jsonResponse));
+    } on FormatException {
+      final jsonResponse = json.encode({
+        'status': 400,
+        'error': {
+          'message': "Empty fields",
+          'verbose': "Input fields must not be empty",
+        }
+      });
+      return Error.fromJson(jsonDecode(jsonResponse));
+    } on HttpException catch (error) {
+      final jsonResponse = json.encode({
+        'status': 400,
+        'error': {
+          'message': "Http error ",
+          'verbose': "Something Went Wrong",
+        }
+      });
+      return Error.fromJson(jsonDecode(jsonResponse));
+    }
+  }
 
-//       if (response.statusCode < 400) {
-//         return Success.fromJson(jsonDecode(response.body));
-//       } else {
-//         return Error.fromJson(jsonDecode(response.body));
-//         // throw Exception("Failed to register user");
-//       }
-//     } on FormatException {
-//       final jsonResponse = json.encode({
-//         'status': 400,
-//         'error': {
-//           'message': "Empty fields",
-//           'verbose': "Input fields must not be empty",
-//         }
-//       });
-//       return Error.fromJson(jsonDecode(jsonResponse));
-//     } on HttpException {
-//       final jsonResponse = json.encode({
-//         'status': 400,
-//         'error': {
-//           'message': "Empty ",
-//           'verbose': "Input fields must not be empty",
-//         }
-//       });
-//       return Error.fromJson(jsonDecode(jsonResponse));
-//     }
-//   }
-// }
+  Future<dynamic> updateClassroom(
+    int id,
+    String name,
+    String subject,
+  ) async {
+    try {
+      if (name == "" || subject == "") {
+        throw const FormatException("Input fields must not be empty");
+      }
+
+      final sharedPreferences = await SharedPreferences.getInstance();
+      final String? accessToken = sharedPreferences.getString(prefLoginAccess);
+
+      final url = Uri.parse(urls.updateClassroomURL(id));
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authentication': 'Bearer $accessToken'
+        },
+        body: jsonEncode({
+          "name": name,
+          "subject": subject,
+          // "classroom_code": classroom_code,
+          // "organisaion": teacher,
+        }),
+      );
+
+      if (response.statusCode < 400) {
+        return Success.fromJson(jsonDecode(response.body));
+      } else {
+        return Error.fromJson(jsonDecode(response.body));
+      }
+    } on SocketException {
+      final jsonResponse = json.encode({
+        'status': 400,
+        'error': {
+          'message': "Connection Error",
+          'verbose': "Could not connect to the server. Please try again",
+        }
+      });
+      return Error.fromJson(jsonDecode(jsonResponse));
+    } on FormatException {
+      final jsonResponse = json.encode({
+        'status': 400,
+        'error': {
+          'message': "Empty fields",
+          'verbose': "Input fields must not be empty",
+        }
+      });
+      return Error.fromJson(jsonDecode(jsonResponse));
+    } on HttpException {
+      final jsonResponse = json.encode({
+        'status': 400,
+        'error': {
+          'message': "Empty ",
+          'verbose': "Input fields must not be empty",
+        }
+      });
+      return Error.fromJson(jsonDecode(jsonResponse));
+    }
+  }
+}

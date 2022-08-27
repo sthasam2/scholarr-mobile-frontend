@@ -12,15 +12,21 @@ class AppRouter extends RouterDelegate
   final ClassgroupManager classgroupManager;
   final ClassroomManager classroomManager;
   final ClasscontentManager classroomContentManager;
+  final ClassroomManager classroomManager;
+  final ClasscontentManager classroomContentManager;
 
   AppRouter({
     required this.appStateManager,
     required this.classgroupManager,
     required this.classroomManager,
     required this.classroomContentManager,
+    required this.classroomManager,
+    required this.classroomContentManager,
   }) : navigatorKey = GlobalKey<NavigatorState>() {
     appStateManager.addListener(notifyListeners);
     classgroupManager.addListener(notifyListeners);
+    classroomManager.addListener(notifyListeners);
+    classroomContentManager.addListener(notifyListeners);
     classroomManager.addListener(notifyListeners);
     classroomContentManager.addListener(notifyListeners);
   }
@@ -29,6 +35,8 @@ class AppRouter extends RouterDelegate
   void dispose() {
     appStateManager.removeListener(notifyListeners);
     classgroupManager.removeListener(notifyListeners);
+    classroomManager.removeListener(notifyListeners);
+    classroomContentManager.removeListener(notifyListeners);
     classroomManager.removeListener(notifyListeners);
     classroomContentManager.removeListener(notifyListeners);
     super.dispose();

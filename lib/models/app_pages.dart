@@ -2,17 +2,22 @@ class AppPages {
   // App Pages
   //
   // Start
+  //
+  // Start
   static String splashPath = '/splash';
   static String onboardingPath = '/onboarding';
+  // Auth
   // Auth
   static String loginPath = '/auth/login';
   static String signUpPath = '/auth/sign_up';
   static String forgotPwPath = '/auth/forgot_password';
   static String resetPwPath = '/auth/reset_password';
   // Home
+  // Home
   static String homePath = '/';
   static String menuPath = '/menu';
   static String settingsPath = '/settings';
+  // Classgroup
   // Classgroup
   static String classgroupPath = '/class_group';
   static String classgroupListPath = '/class_group/list';

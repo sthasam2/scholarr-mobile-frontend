@@ -39,14 +39,6 @@ class _SubmissionDetailScreenState extends State<SubmissionDetailScreen> {
     _submissionDetail =
         widget.classcontentManager.getSelectedSubmissionDetail();
 
-    // _plagiarismList = Provider.of<ClasscontentManager>(context, listen: false)
-    //     .getSubmissionList(widget.classcontentManager.selectedClassworkIndex);
-
-    // final id = Provider.of<AppStateManager>(context, listen: false).getId;
-    // final classroomContentTeacher =
-    //     widget.classcontentManager.selectedClasscontentCreatorIndex;
-    // isTeacher = id == classroomContentTeacher;
-
     super.initState();
     debugPrint("initialization for detail done");
   }
@@ -347,10 +339,12 @@ class _SubmissionDetailScreenState extends State<SubmissionDetailScreen> {
                           Text(
                             name,
                             style: Theme.of(context).textTheme.headlineSmall,
+                            overflow: TextOverflow.ellipsis,
                           ),
                           Text(
                             item.mime_type,
                             style: Theme.of(context).textTheme.bodyMedium,
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),

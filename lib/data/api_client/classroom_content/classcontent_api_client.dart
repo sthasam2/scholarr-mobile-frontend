@@ -397,8 +397,11 @@ class ClasscontentClient {
           "title": title,
           "description": description,
           "content_type": classwork_content_options[content_type]!,
-          "weightage": weightage!.toString()
+          "weightage": weightage!.toString(),
         });
+        if (deadline != null) {
+          request.fields["deadline"] = deadline;
+        }
 
         if (attachment_path != null) {
           request.files.add(await http.MultipartFile.fromPath(

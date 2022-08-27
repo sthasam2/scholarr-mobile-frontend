@@ -236,21 +236,19 @@ class _ClassroomContentListScreenState
   Widget buildCreateButton(
       BuildContext context, bool isUserTeacher, String classcontentType) {
     if (isUserTeacher) {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: MaterialButton(
-          color: Colors.red[700],
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-          onPressed: () async {
-            Provider.of<ClasscontentManager>(context, listen: false)
-                .createNewItem(widget.manager.selectedIndex, classcontentType);
-          },
-          child: SizedBox(
-            height: 30,
-            child: Text(
-              "Create",
-              style: Theme.of(context).textTheme.labelLarge,
-            ),
+      return MaterialButton(
+        color: Colors.red[700],
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+        onPressed: () async {
+          Provider.of<ClasscontentManager>(context, listen: false)
+              .createNewItem(widget.manager.selectedIndex, classcontentType);
+        },
+        child: SizedBox(
+          height: 40,
+          child: Text(
+            "Create",
+            style: Theme.of(context).textTheme.labelLarge,
+            textAlign: TextAlign.justify,
           ),
         ),
       );

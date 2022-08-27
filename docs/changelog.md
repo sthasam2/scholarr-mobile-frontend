@@ -1,5 +1,10 @@
 # Changelog
 
+## version: 1.2.1+1: Additions, Modifications and Fixes
+
+* Modify classroom content screen for issues
+* Bug fixes
+
 ## version: 1.2.0+1: Additions, Modifications and Fixes
 
 * Add Classgroup logic (Incomplete)
